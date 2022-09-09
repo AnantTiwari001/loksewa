@@ -1,17 +1,22 @@
 import React from "react";
 import { useState } from "react";
+import Alert from "./Alert";
 
-export default function Question({ question, handleQuestionChange }) {
+export default function Question({ question, handleQuestionChange, localStore }) {
   const defaultOptionColor = "bg-blue-600";
   const wrongOptionColor = "bg-red-500";
   const rightOptionColor = "bg-green-500";
   const checkAnswer = (i) => {
     let color= [...colorState];
     if (i === question.correct) {
+      localStore('right');
       color[i]=rightOptionColor;
+      setRight(true);
       setColorState(color);
     } else {
       color[i]=wrongOptionColor;
+      localStore('wrong');
+      setRight(false);
       setColorState(color);
     }
     color[question.correct]=rightOptionColor;
@@ -25,6 +30,7 @@ export default function Question({ question, handleQuestionChange }) {
     defaultOptionColor,
     defaultOptionColor,
   ]);
+  const [right, setRight]= useState(null);
   
   const [nextbtn, setNextBtn]= useState(false);
 
@@ -57,7 +63,7 @@ export default function Question({ question, handleQuestionChange }) {
           {question.options[3]}
         </span>
       </div>
-      {nextbtn && (<button className="absolute bottom-2 p-1 bg-blue-400" onClick={()=>handleQuestionChange()}>Next</button>)}
+      {nextbtn && <Alert right={right} handleQuestionChange={handleQuestionChange} />}
     </div>
   );
 }
