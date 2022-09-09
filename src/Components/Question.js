@@ -36,6 +36,7 @@ export default function Question({ question, handleQuestionChange, localStore })
 
   return (
     <div>
+      {/* {console.log(question)} */}
       <h2>{question.question} </h2>
       <div className="mt-2">
         <span
